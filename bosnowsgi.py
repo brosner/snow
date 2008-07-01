@@ -126,11 +126,13 @@ def parse_parameters():
     parser = OptionParser(conflict_handler="resolve")
     parser.add_option("-h", "--host", dest="host")
     parser.add_option("-p", "--port", dest="port")
+    parser.add_option("-d", "--daemon", dest="daemon", action="store_true")
     options, args = parser.parse_args(sys.argv[3:])
     if options.host:
         params["host"] = options.host
     if options.port:
         params["port"] = options.port
+    params["daemonize"] = options.daemon
     return params
 
 def main():
