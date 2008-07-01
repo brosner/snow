@@ -110,25 +110,20 @@ def parse_parameters():
     params = {}
     parser = OptionParser()
     parser.add_option("-p", "--port", dest="port")
-    options, args = parser.parse_args()
+    options, args = parser.parse_args(sys.argv[3:])
     if options.port:
         params["port"] = options.port
-    return params, args
+    return params
 
 def main():
     """
     Handles the main bit of the program. Called when ran standalone from the
     command-line.
     """
-    params, args = parse_parameters()
-    try:
-        name = args[0]
-    except IndexError:
-        sys.exit("you must specify a server")
-    try:
-        command = args[1]
-    except IndexError:
-        sys.exit("no command given")
+    if len(sys.argv[1:]) < 2:
+        sys.exit("you must specify a server name and command.")
+    name, command = sys.argv[1:3]
+    params = parse_parameters()
     try:
         server = load_wsgi_server(name, **params)
     except (NoServerFound, ImproperlyConfigured), ex:
