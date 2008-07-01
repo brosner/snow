@@ -5,7 +5,11 @@ import sys
 import yaml
 
 from optparse import OptionParser
-from cherrypy.wsgiserver import CherryPyWSGIServer
+
+try:
+    from cherrypy.wsgiserver import CherryPyWSGIServer
+except ImportError:
+    from wsgiserver import CherryPyWSGIServer
 
 class ImproperlyConfigured(Exception):
     pass
