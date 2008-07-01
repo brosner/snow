@@ -99,6 +99,9 @@ def load_wsgi_server(name, **kwargs):
     defaults.update(kwargs)
     try:
         defaults["port"] = int(defaults["port"])
+    except TypeError:
+        # None is used for the port meaning it was not given
+        raise ImproperlyConfigured, "no port specified for '%s'" % name
     except ValueError:
         raise ImproperlyConfigured, "'%s' has a malformed port" % name
     return WSGIServerProcess(dispatcher, **defaults)
