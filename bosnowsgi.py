@@ -7,8 +7,6 @@ import yaml
 from optparse import OptionParser
 from cherrypy.wsgiserver import CherryPyWSGIServer
 
-config = {}
-
 class ImproperlyConfigured(Exception):
     pass
 
@@ -129,7 +127,6 @@ def main():
     Handles the main bit of the program. Called when ran standalone from the
     command-line.
     """
-    global config
     if len(sys.argv[1:]) < 2:
         sys.exit("you must specify a server name and command.")
     name, command = sys.argv[1:3]
