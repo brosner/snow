@@ -28,9 +28,6 @@ class WSGIServerProcess(object):
         """
         Starts the WSGI server.
         """
-        # setup the process environment
-        for var, value in self.env.items():
-            os.environ[var] = value
         server = CherryPyWSGIServer((self.host, self.port), self.dispatcher)
         server.environ.update(self.wsgi_env)
         if self.daemonize:
@@ -38,6 +35,9 @@ class WSGIServerProcess(object):
         if self.pidfile:
             print "writing pid (%s)" % self.pidfile
             writepid(self.pidfile)
+        # setup the process environment
+        for var, value in self.env.items():
+            os.environ[var] = value
         try:
             server.start()
         except KeyboardInterrupt:
