@@ -103,14 +103,21 @@ def load_wsgi_server(name, **kwargs):
         raise ImproperlyConfigured, "'%s' has a malformed port" % name
     return WSGIServerProcess(dispatcher, **defaults)
 
+def parse_parameters():
+    params = {}
+    parser = OptionParser()
+    parser.add_option("-p", "--port", dest="port")
+    options, args = parser.parse_args()
+    if options.port:
+        params["port"] = options.port
+    return params, args
+
 def main():
     """
     Handles the main bit of the program. Called when ran standalone from the
     command-line.
     """
-    parser = OptionParser()
-    parser.add_option("-p", "--port", dest="port")
-    options, args = parser.parse_args()
+    params, args = parse_parameters()
     try:
         name = args[0]
     except IndexError:
@@ -120,9 +127,6 @@ def main():
         command = args[1]
     except IndexError:
         print "no command given"
-    params = {}
-    if options.port:
-        params["port"] = options.port
     try:
         server = load_wsgi_server(name, **params)
     except (NoServerFound, ImproperlyConfigured), ex:
