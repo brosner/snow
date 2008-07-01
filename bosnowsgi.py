@@ -7,8 +7,7 @@ import yaml
 from optparse import OptionParser
 from cherrypy.wsgiserver import CherryPyWSGIServer
 
-class NoServerFound(Exception):
-    pass
+config = {}
 
 class ImproperlyConfigured(Exception):
     pass
@@ -91,10 +90,7 @@ def load_wsgi_server(name, **kwargs):
     """
     Given a ``name`` return an instance of ``WSGIServerProcess``.
     """
-    try:
-        config = load_config(os.path.expanduser("~/.bosnowsgirc"))[name]
-    except KeyError:
-        raise NoServerFound, "No server named '%s'" % name
+    config = kwargs.pop("config", {})
     dispatcher_path = config.get("dispatcher")
     if not dispatcher_path:
         raise ImproperlyConfigured, "'%s' does not have a dispatcher" % name
@@ -133,13 +129,22 @@ def main():
     Handles the main bit of the program. Called when ran standalone from the
     command-line.
     """
+    global config
     if len(sys.argv[1:]) < 2:
         sys.exit("you must specify a server name and command.")
     name, command = sys.argv[1:3]
     params = parse_parameters()
     try:
-        server = load_wsgi_server(name, **params)
-    except (NoServerFound, ImproperlyConfigured), ex:
+        config = load_config(os.path.expanduser("~/.wsgirc"))
+    except IOError, ex:
+        sys.exit("cannot find .wsgirc file: %s" % ex)
+    try:
+        server_config = config["servers"][name]
+    except KeyError:
+        sys.exit("no server named '%s'" % name)
+    try:
+        server = load_wsgi_server(name, config=server_config, **params)
+    except ImproperlyConfigured, ex:
         sys.exit(ex.message)
     if command == "start":
         print "starting %s (%s:%d)" % (name, server.host, server.port)
