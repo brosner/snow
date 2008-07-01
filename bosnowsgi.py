@@ -18,6 +18,7 @@ class WSGIServerProcess(object):
     A simple wrapper around starting and stopping a CherryPy WSGI process.
     """
     def __init__(self, dispatcher, host, port, daemonize=False, pidfile=None):
+        self.dispatcher = dispatcher
         self.host = host
         self.port = port
         self.daemonize = daemonize
