@@ -108,6 +108,10 @@ def load_wsgi_server(name, **kwargs):
     return WSGIServerProcess(dispatcher, **defaults)
 
 def parse_parameters():
+    """
+    Parses the parameters passed in over the command-line using optparse.
+    Returns a dictionary mapping options to their values.
+    """
     params = {}
     parser = OptionParser()
     parser.add_option("-p", "--port", dest="port")
