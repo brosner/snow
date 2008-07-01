@@ -35,6 +35,9 @@ class WSGIServerProcess(object):
         server.environ.update(self.wsgi_env)
         if self.daemonize:
             daemonize()
+        if self.pidfile:
+            print "writing pid (%s)" % self.pidfile
+            writepid(self.pidfile)
         try:
             server.start()
         except KeyboardInterrupt:
@@ -67,6 +70,14 @@ def daemonize():
             if e.errno != errno.EBADF:
                 raise
     os.close(null)
+
+def writepid(pid_file):
+    """
+    Write the process ID to disk.
+    """
+    fp = open(pid_file, "w")
+    fp.write(str(os.getpid()))
+    fp.close()
 
 def load_config(config_file):
     """
@@ -139,6 +150,8 @@ def main():
         server_config = config["servers"][name]
     except KeyError:
         sys.exit("no server named '%s'" % name)
+    params["pidfile"] = os.path.join(os.path.expanduser(config["pid-path"]),
+                                     "%s.pid" % name)
     try:
         server = load_wsgi_server(name, config=server_config, **params)
     except ImproperlyConfigured, ex:
