@@ -1,0 +1,52 @@
+=========
+bosnowsgi
+=========
+
+bosnowsgi is a simple script to deal with the cruft involved in managing WSGI
+processes with CherryPy's WSGI server. bosnowsgi offers multiple ways to
+configure its usage giving complete control over the configuration.
+
+Dependancies
+============
+
+ * `CherryPy WSGI server`_ 3.1.0
+ * `PyYaml`_ 3.05
+
+The versions numbers are not strict. They are simply the versions that were
+used during testing.
+
+.. _CherryPy WSGI server: http://www.cherrypy.org/browser/tags/cherrypy-3.1.0/cherrypy/wsgiserver/__init__.py?format=raw
+.. _PyYaml: http://pyyaml.org/wiki/PyYAML
+
+Installation
+============
+
+Simply drop ``bosnowsgi.py`` on your ``PATH`` and ``chmod +x`` it.
+
+Usage
+=====
+
+There are multiple ways to configure bosnowsgi.
+
+Using a configuration file
+--------------------------
+
+The power of bosnowsgi comes in the ability to configure multiple WSGI process
+instances with one configuration file. It is currently required to have a
+``.bosnowsgirc`` file in your home directory. Go ahead and create it and look
+at a miminal configuration::
+
+    oebfare:
+        dispatcher: "trac.main.web.dispatch_request"
+
+That is the miminal amount of configuration needed to setup a WSGI process.
+The configuration file is in the syntax of Yaml. This makes it drop dead
+simple create processes and define parameters for each. The global key level
+is where you define each WSGI process. You give it a name and its value is
+multiple keys defining its parameters.
+
+dispatcher
+~~~~~~~~~~
+
+This key is required. Its value is a Python module path to the WSGI callable
+used to dispatch the request.
