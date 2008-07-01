@@ -121,29 +121,26 @@ def main():
     try:
         name = args[0]
     except IndexError:
-        print "you must specify a server"
-        raise SystemExit
+        sys.exit("you must specify a server")
     try:
         command = args[1]
     except IndexError:
-        print "no command given"
+        sys.exit("no command given")
     try:
         server = load_wsgi_server(name, **params)
     except (NoServerFound, ImproperlyConfigured), ex:
-        print ex.message
-        raise SystemExit
+        sys.exit(ex.message)
     if command == "start":
         print "starting %s (%s:%d)" % (name, server.host, server.port)
         server.start()
     elif command == "stop":
         if not server.pidfile:
-            print "'%s' does not have a pidfile" % name
-            raise SystemExit
+            sys.exit("'%s' does not have a pidfile" % name)
         pid = open(server.pidfile, "r").read()
         print "stopping %s (%s)" % (name, pid)
         server.stop(pid)
     else:
-        print "unknown command '%s'" % command
+        sys.exit("unknown command '%s'" % command)
 
 if __name__ == "__main__":
     main()
