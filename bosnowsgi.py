@@ -39,7 +39,7 @@ class WSGIServerProcess(object):
         try:
             server.start()
         except KeyboardInterrupt:
-            # likely not a daemonize so make sure to shutdown properly.
+            # likely not a daemon so make sure to shutdown properly.
             server.stop()
     
     def stop(self, pid):
