@@ -23,30 +23,49 @@ Installation
 
 Simply drop ``bosnowsgi.py`` on your ``PATH`` and ``chmod +x`` it.
 
-Usage
-=====
+Configuration
+=============
 
-There are multiple ways to configure bosnowsgi.
-
-Using a configuration file
---------------------------
-
-The power of bosnowsgi comes in the ability to configure multiple WSGI process
-instances with one configuration file. It is currently required to have a
-``.bosnowsgirc`` file in your home directory. Go ahead and create it and look
-at a miminal configuration::
+Configuration of bosnowsgi is where its real power shines. You must create
+yourself ``~/.bosnowsgirc`` file. This file is YAML that defines WSGI
+processes at the top-level by name. Here is a quick example of a miminal
+configuration file::
 
     oebfare:
         dispatcher: "trac.main.web.dispatch_request"
 
-That is the miminal amount of configuration needed to setup a WSGI process.
-The configuration file is in the syntax of Yaml. This makes it drop dead
-simple create processes and define parameters for each. The global key level
-is where you define each WSGI process. You give it a name and its value is
-multiple keys defining its parameters.
+Parameters
+----------
 
 dispatcher
 ~~~~~~~~~~
 
 This key is required. Its value is a Python module path to the WSGI callable
 used to dispatch the request.
+
+host
+~~~~
+
+Default: ``127.0.0.1``
+
+The host on which the process should bind on.
+
+port
+~~~~
+
+Default: ``None``
+
+The port on which the process should listen to. ``port`` is optional at the
+configuration file level. However, is required to run the server. If not
+specified in the configuration, it must be given to the command-line.
+
+Usage
+=====
+
+With the configuration all setup you are ready to manage WSGI processes. To
+start the ``oebfare`` process execute::
+
+    bosnowsgi.py oebfare start -p 9001
+
+Parameters passed on the command-line will override any configuration of the
+same kind.
