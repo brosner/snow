@@ -18,22 +18,24 @@ class WSGIServerProcess(object):
     A simple wrapper around starting and stopping a CherryPy WSGI process.
     """
     def __init__(self, dispatcher, host, port, daemonize=False, pidfile=None,
-                 env={}):
+                 env={}, wsgi_env={}):
         self.dispatcher = dispatcher
         self.host = host
         self.port = port
         self.daemonize = daemonize
         self.pidfile = pidfile
         self.env = env
+        self.wsgi_env = wsgi_env
     
     def start(self):
         """
         Starts the WSGI server.
         """
-        # setup the environment
+        # setup the process environment
         for var, value in self.env.items():
             os.environ[var] = value
         server = CherryPyWSGIServer((self.host, self.port), self.dispatcher)
+        server.environ.update(self.wsgi_env)
         if self.daemonize:
             daemonize()
         try:
@@ -105,7 +107,8 @@ def load_wsgi_server(name, **kwargs):
         raise ImproperlyConfigured, "no port specified for '%s'" % name
     except ValueError:
         raise ImproperlyConfigured, "'%s' has a malformed port" % name
-    defaults = {"env": config.get("env", {})}
+    defaults = {"env": config.get("env", {}),
+                "wsgi_env": config.get("wsgi_env", {})}
     defaults.update(kwargs)
     return WSGIServerProcess(dispatcher, host, port, **defaults)
 
