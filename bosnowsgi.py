@@ -92,20 +92,15 @@ def load_wsgi_server(name, **kwargs):
     if not dispatcher_path:
         raise ImproperlyConfigured, "'%s' does not have a dispatcher" % name
     dispatcher = load_dispatcher(dispatcher_path)
-    host = config.get("host", "127.0.0.1")
-    if not host:
-        raise ImproperlyConfigured, "'%s' does not have a host key" % name
-    port = config.get("port")
-    defaults = {"host": host, "port": port}
-    defaults.update(kwargs)
+    host = kwargs.pop("host", config.get("host", "127.0.0.1"))
     try:
-        defaults["port"] = int(defaults["port"])
+        port = int(kwargs.pop("port", config.get("port")))
     except TypeError:
         # None is used for the port meaning it was not given
         raise ImproperlyConfigured, "no port specified for '%s'" % name
     except ValueError:
         raise ImproperlyConfigured, "'%s' has a malformed port" % name
-    return WSGIServerProcess(dispatcher, **defaults)
+    return WSGIServerProcess(dispatcher, host, port, **kwargs)
 
 def parse_parameters():
     """
@@ -113,9 +108,12 @@ def parse_parameters():
     Returns a dictionary mapping options to their values.
     """
     params = {}
-    parser = OptionParser()
+    parser = OptionParser(conflict_handler="resolve")
+    parser.add_option("-h", "--host", dest="host")
     parser.add_option("-p", "--port", dest="port")
     options, args = parser.parse_args(sys.argv[3:])
+    if options.host:
+        params["host"] = options.host
     if options.port:
         params["port"] = options.port
     return params
