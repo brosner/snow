@@ -1,0 +1,11 @@
+
+# this is a sample .wsgirc
+
+pid-path: "~/run"
+
+processes:
+    oebfare:
+        dispatcher: "trac.web.main.dispatch_request"
+    
+    trac:
+        dispatcher: "trac.web.main.dispatch_request"

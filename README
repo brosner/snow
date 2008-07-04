@@ -27,15 +27,34 @@ Configuration
 =============
 
 Configuration of bosnowsgi is where its real power shines. You must create
-yourself ``~/.bosnowsgirc`` file. This file is YAML that defines WSGI
-processes at the top-level by name. Here is a quick example of a miminal
-configuration file::
+yourself ``~/.wsgirc`` file. The configuration format is YAML and has two
+top-level keys, ``pid-path`` and ``processes``. Here is a quick sample::
 
-    oebfare:
-        dispatcher: "trac.main.web.dispatch_request"
+    pid-path: "~/run"
 
-Parameters
-----------
+    processes:
+        oebfare:
+            dispatcher: "trac.web.main.dispatch_request"
+
+        trac:
+            dispatcher: "trac.web.main.dispatch_request"
+
+Global Parameters
+-----------------
+
+pid-path
+~~~~~~~~
+
+The path where bosnowsgi should store the PID files for the processes it
+spawns off.
+
+processes
+~~~~~~~~~
+
+A container for each process and their configuration.
+
+Process Parameters
+------------------
 
 dispatcher
 ~~~~~~~~~~
