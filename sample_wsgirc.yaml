@@ -3,7 +3,7 @@
 
 pid-path: "~/run"
 
-processes:
+servers:
     oebfare:
         dispatcher: "trac.web.main.dispatch_request"
     

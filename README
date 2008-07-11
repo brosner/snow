@@ -32,7 +32,7 @@ top-level keys, ``pid-path`` and ``processes``. Here is a quick sample::
 
     pid-path: "~/run"
 
-    processes:
+    servers:
         oebfare:
             dispatcher: "trac.web.main.dispatch_request"
 
@@ -48,8 +48,8 @@ pid-path
 The path where bosnowsgi should store the PID files for the processes it
 spawns off.
 
-processes
-~~~~~~~~~
+servers
+~~~~~~~
 
 A container for each process and their configuration.
 
