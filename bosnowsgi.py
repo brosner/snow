@@ -156,8 +156,12 @@ def main():
         server_config = config["servers"][name]
     except KeyError:
         sys.exit("no server named '%s'" % name)
-    params["pidfile"] = os.path.join(os.path.expanduser(config["pid-path"]),
-                                     "%s.pid" % name)
+    pid_path = config.get("pid-path")
+    if not pid_path:
+        root_pid_path = "."
+    else:
+        root_pid_path = os.path.expanduser(config["pid-path"])
+    params["pidfile"] = os.path.join(root_pid_path, "%s.pid" % name)
     try:
         server = load_wsgi_server(name, config=server_config, **params)
     except ImproperlyConfigured, ex:
