@@ -103,10 +103,17 @@ def load_dispatcher(path):
     Given a module path, e.g. "django.core.handlers.wsgi.WSGIHandler" return
     the WSGIHandler object.
     """
+    must_be_called = False
+    if path.endswith("()"):
+        must_be_called = True
+        path = path[:-2]
     dot = path.rindex(".")
     dispatcher_mod, dispatcher_callable = path[:dot], path[dot+1:]
     mod = __import__(dispatcher_mod, {}, {}, [""])
-    return getattr(mod, dispatcher_callable)
+    dispatcher = getattr(mod, dispatcher_callable)
+    if must_be_called:
+        return dispatcher()
+    return dispatcher
 
 def load_wsgi_server(name, **kwargs):
     """
