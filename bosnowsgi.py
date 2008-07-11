@@ -13,6 +13,14 @@ except ImportError:
 
 class ImproperlyConfigured(Exception):
     pass
+    
+def test_dispatcher(environ, start_response):
+    status = "200 OK"
+    output = "this is the test dispatcher of bosnowsgi"
+    response_headers = [("Content-type", "text/plain"),
+                        ("Content-Length", str(len(output)))]
+    start_response(status, response_headers)
+    return [output]
 
 class WSGIServerProcess(object):
     """
