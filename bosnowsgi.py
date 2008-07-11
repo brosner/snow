@@ -3,6 +3,7 @@
 import os
 import sys
 import yaml
+import signal
 
 from optparse import OptionParser
 
@@ -60,7 +61,7 @@ class WSGIServerProcess(object):
         """
         Given ``pid`` (a process ID) gracefully terminate the process.
         """
-        pass
+        os.kill(int(pid), signal.SIGHUP)
 
 def daemonize():
     """
