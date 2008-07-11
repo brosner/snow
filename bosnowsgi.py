@@ -191,6 +191,15 @@ def main():
         pid = open(server.pidfile, "r").read()
         print "stopping %s (%s)" % (name, pid)
         server.stop(pid)
+    elif command == "restart":
+        print "restarting %s" % name
+        # TODO: this should lilkely move into WSGIServerProcess, since it is
+        # duplicated.
+        if not server.pidfile:
+            sys.exit("'%s' does not have a pidfile" % name)
+        pid = open(server.pidfile, "r").read()
+        server.stop(pid)
+        server.start()
     else:
         sys.exit("unknown command '%s'" % command)
 
