@@ -4,6 +4,7 @@ import os
 import sys
 import yaml
 import signal
+import time
 
 from optparse import OptionParser
 
@@ -199,6 +200,7 @@ def main():
             sys.exit("'%s' does not have a pidfile" % name)
         pid = open(server.pidfile, "r").read()
         server.stop(pid)
+        time.sleep(3) # probably way too much time.
         server.start()
     else:
         sys.exit("unknown command '%s'" % command)
