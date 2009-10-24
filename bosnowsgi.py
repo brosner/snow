@@ -1,21 +1,21 @@
 #!/usr/bin/env python
-
+import optparse
 import os
-import sys
-import yaml
 import signal
+import sys
 import time
-
-from optparse import OptionParser
+import yaml
 
 try:
     from cherrypy.wsgiserver import CherryPyWSGIServer
 except ImportError:
     from wsgiserver import CherryPyWSGIServer
 
+
 class ImproperlyConfigured(Exception):
     pass
-    
+
+
 def test_dispatcher(environ, start_response):
     status = "200 OK"
     output = "this is the test dispatcher of bosnowsgi"
@@ -24,10 +24,12 @@ def test_dispatcher(environ, start_response):
     start_response(status, response_headers)
     return [output]
 
+
 class WSGIServerProcess(object):
     """
     A simple wrapper around starting and stopping a CherryPy WSGI process.
     """
+    
     def __init__(self, dispatcher, host, port, daemonize=False, pidfile=None,
                  env={}, wsgi_env={}):
         self.dispatcher = dispatcher
@@ -64,6 +66,7 @@ class WSGIServerProcess(object):
         """
         os.kill(int(pid), signal.SIGHUP)
 
+
 def daemonize():
     """
     Detach from the terminal and continue as a daemon.
@@ -85,6 +88,7 @@ def daemonize():
                 raise
     os.close(null)
 
+
 def writepid(pid_file):
     """
     Write the process ID to disk.
@@ -93,11 +97,13 @@ def writepid(pid_file):
     fp.write(str(os.getpid()))
     fp.close()
 
+
 def load_config(config_file):
     """
     Loads the given ``config_file`` and returns a dictionary of its contents.
     """
     return yaml.load(open(config_file, "r"))
+
 
 def load_dispatcher(path):
     """
@@ -115,6 +121,7 @@ def load_dispatcher(path):
     if must_be_called:
         return dispatcher()
     return dispatcher
+
 
 def load_wsgi_server(name, **kwargs):
     """
@@ -138,13 +145,14 @@ def load_wsgi_server(name, **kwargs):
     defaults.update(kwargs)
     return WSGIServerProcess(dispatcher, host, port, **defaults)
 
+
 def parse_parameters():
     """
     Parses the parameters passed in over the command-line using optparse.
     Returns a dictionary mapping options to their values.
     """
     params = {}
-    parser = OptionParser(conflict_handler="resolve")
+    parser = optparse.OptionParser(conflict_handler="resolve")
     parser.add_option("-h", "--host", dest="host")
     parser.add_option("-p", "--port", dest="port")
     parser.add_option("-d", "--daemon", dest="daemon", action="store_true")
@@ -155,6 +163,7 @@ def parse_parameters():
         params["port"] = options.port
     params["daemonize"] = options.daemon
     return params
+
 
 def main():
     """
@@ -204,6 +213,7 @@ def main():
         server.start()
     else:
         sys.exit("unknown command '%s'" % command)
+
 
 if __name__ == "__main__":
     main()
