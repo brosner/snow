@@ -10,7 +10,7 @@ setup(
     long_description = open("README").read(),
     license = "BSD",
     url = "http://github.com/brosner/snow",
-    py_modules = [
+    packages = [
         "snow",
     ],
     classifiers = [
