@@ -86,7 +86,7 @@ Usage
 With the configuration all setup you are ready to manage WSGI processes. To
 start the ``oebfare`` process execute::
 
-    snow.py oebfare start -p 9001
+    snow oebfare start -p 9001
 
 Parameters passed on the command-line will override any configuration of the
 same kind.
