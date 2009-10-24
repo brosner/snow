@@ -9,13 +9,11 @@ configure its usage giving complete control over the configuration.
 Dependancies
 ============
 
- * `CherryPy WSGI server`_ 3.1.0
  * `PyYaml`_ 3.05
 
 The versions numbers are not strict. They are simply the versions that were
 used during testing.
 
-.. _CherryPy WSGI server: http://www.cherrypy.org/browser/tags/cherrypy-3.1.0/cherrypy/wsgiserver/__init__.py?format=raw
 .. _PyYaml: http://pyyaml.org/wiki/PyYAML
 
 Installation
