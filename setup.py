@@ -17,7 +17,7 @@ setup(
         "Development Status :: 3 - Alpha",
         "Environment :: Web Environment",
         "Intended Audience :: Developers",
-        "License :: OSI Approved :: MIT License",
+        "License :: OSI Approved :: BSD License",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
     ]
