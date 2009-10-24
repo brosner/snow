@@ -8,7 +8,7 @@ setup(
     author_email = "brosner@gmail.com",
     description = "Simplified WSGI process management",
     long_description = open("README").read(),
-    license = "MIT",
+    license = "BSD",
     url = "http://github.com/brosner/snow",
     py_modules = [
         "snow",
