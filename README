@@ -1,9 +1,9 @@
-=========
-bosnowsgi
-=========
+====
+snow
+====
 
-bosnowsgi is a simple script to deal with the cruft involved in managing WSGI
-processes with CherryPy's WSGI server. bosnowsgi offers multiple ways to
+snow is a simple script to deal with the cruft involved in managing WSGI
+processes with CherryPy's WSGI server. snow offers multiple ways to
 configure its usage giving complete control over the configuration.
 
 Dependancies
@@ -21,12 +21,12 @@ used during testing.
 Installation
 ============
 
-Simply drop ``bosnowsgi.py`` on your ``PATH`` and ``chmod +x`` it.
+Simply drop ``snow.py`` on your ``PATH`` and ``chmod +x`` it.
 
 Configuration
 =============
 
-Configuration of bosnowsgi is where its real power shines. You must create
+Configuration of snow is where its real power shines. You must create
 yourself ``~/.wsgirc`` file. The configuration format is YAML and has two
 top-level keys, ``pid-path`` and ``processes``. Here is a quick sample::
 
@@ -45,7 +45,7 @@ Global Parameters
 pid-path
 ~~~~~~~~
 
-The path where bosnowsgi should store the PID files for the processes it
+The path where snow should store the PID files for the processes it
 spawns off.
 
 servers
@@ -84,7 +84,7 @@ Usage
 With the configuration all setup you are ready to manage WSGI processes. To
 start the ``oebfare`` process execute::
 
-    bosnowsgi.py oebfare start -p 9001
+    snow.py oebfare start -p 9001
 
 Parameters passed on the command-line will override any configuration of the
 same kind.

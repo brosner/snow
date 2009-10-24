@@ -18,7 +18,7 @@ class ImproperlyConfigured(Exception):
 
 def test_dispatcher(environ, start_response):
     status = "200 OK"
-    output = "this is the test dispatcher of bosnowsgi"
+    output = "this is the test dispatcher of snow"
     response_headers = [("Content-type", "text/plain"),
                         ("Content-Length", str(len(output)))]
     start_response(status, response_headers)
