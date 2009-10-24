@@ -21,7 +21,9 @@ used during testing.
 Installation
 ============
 
-Simply drop ``snow.py`` on your ``PATH`` and ``chmod +x`` it.
+Install using pip::
+
+    pip install snow
 
 Configuration
 =============
