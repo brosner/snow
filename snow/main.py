@@ -7,9 +7,12 @@ import time
 import yaml
 
 try:
-    from cherrypy.wsgiserver import CherryPyWSGIServer
-except ImportError:
     from wsgiserver import CherryPyWSGIServer
+except ImportError:
+    try:
+        from cherrypy.wsgiserver import CherryPyWSGIServer
+    except ImportError:
+        from snow.wsgiserver import CherryPyWSGIServer
 
 
 class ImproperlyConfigured(Exception):
