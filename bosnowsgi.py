@@ -30,15 +30,14 @@ class WSGIServerProcess(object):
     A simple wrapper around starting and stopping a CherryPy WSGI process.
     """
     
-    def __init__(self, dispatcher, host, port, daemonize=False, pidfile=None,
-                 env={}, wsgi_env={}):
+    def __init__(self, dispatcher, host, port, **kwargs):
         self.dispatcher = dispatcher
         self.host = host
         self.port = port
-        self.daemonize = daemonize
-        self.pidfile = pidfile
-        self.env = env
-        self.wsgi_env = wsgi_env
+        self.daemonize = kwargs.get("daemonize", False)
+        self.pidfile = kwargs.get("pidfile", None)
+        self.env = kwargs.get("env", {})
+        self.wsgi_env = kwargs.get("wsgi_env", {})
     
     def start(self):
         """
