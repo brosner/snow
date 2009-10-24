@@ -1,4 +1,4 @@
-from distutils.core import setup
+from setuptools import setup, find_packages
 
 
 setup(
@@ -10,9 +10,12 @@ setup(
     long_description = open("README").read(),
     license = "BSD",
     url = "http://github.com/brosner/snow",
-    packages = [
-        "snow",
-    ],
+    packages = find_packages(),
+    entry_points = {
+        "console_scripts": [
+            "snow = snow.main:main",
+        ],
+    },
     classifiers = [
         "Development Status :: 3 - Alpha",
         "Environment :: Web Environment",
